@@ -1,18 +1,62 @@
 var request = new XMLHttpRequest();
 var lyrics = document.getElementById("lyrics");
+var submit = document.getElementById("submit");
+var artist = document.getElementById("artist");
+var song = document.getElementById("song");
+var formattedArtist;
+var formattedSong;
 var data;
 
 //Gets the JSON data from the lyrics.ovh api
-request.open("GET","https://api.lyrics.ovh/v1/Drake/One_dance");
-request.addEventListener("load",whenLoaded);
-request.send();
+submit.addEventListener("click",function(){
+  console.log("submit");
+  lyrics.innerHTML = "";
+  formattedArtist = formatInput(artist.value);
+  formattedSong = formatInput(song.value);
+  console.log(formattedArtist);
+  request.open("GET","https://api.lyrics.ovh/v1/"+formattedArtist+"/"+formattedSong);
+  request.addEventListener("load",whenLoaded);
+  request.send();
+});
+document.addEventListener("keypress",function(key){
+  if(key.keyCode ===13){
+    console.log("submit");
+    lyrics.innerHTML = "";
+    formattedArtist = formatInput(artist.value);
+    formattedSong = formatInput(song.value);
+    console.log(formattedArtist);
+    request.open("GET","https://api.lyrics.ovh/v1/"+formattedArtist+"/"+formattedSong);
+    request.addEventListener("load",whenLoaded);
+    request.send();
+  }
+})
 
 function whenLoaded(){
   //data = JSON.parse(request.responseText);
+  console.log("loaded");
+  console.log(request.status);
+  if(request.status === 404){
+    lyrics.innerHTML += "Lyrics not found";
+    console.log("Lyrics not found");
+  }else{
   data = request.responseText;
   var output = format(data);
   lyrics.innerHTML += output;
   console.log(data);
+  }
+}
+function formatInput(input){
+  var formatted = "";
+  var pos = input.indexOf(" ");
+  for(var i =0;i<input.length;i++){
+    if(pos===i){
+      formatted+= "_";
+    }else{
+      formatted+=input.substring(i,i+1);
+    }
+    pos = input.indexOf(" ", i);
+  }
+  return formatted;
 }
 //Format the JSON data
 function format(data){
