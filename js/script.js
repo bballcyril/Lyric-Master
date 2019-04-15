@@ -7,7 +7,7 @@ var formattedArtist;
 var formattedSong;
 var data;
 
-//Gets the JSON data from the lyrics.ovh api
+//Fetches JSON data from the lyrics.ovh api
 submit.addEventListener("click",function(){
   console.log("submit");
   lyrics.innerHTML = "";
@@ -18,6 +18,7 @@ submit.addEventListener("click",function(){
   request.addEventListener("load",whenLoaded);
   request.send();
 });
+//Listens for an enter keypress
 document.addEventListener("keypress",function(key){
   if(key.keyCode ===13){
     console.log("submit");
@@ -45,6 +46,7 @@ function whenLoaded(){
   console.log(data);
   }
 }
+//Inserts an "_" at each space
 function formatInput(input){
   var formatted = "";
   var pos = input.indexOf(" ");
