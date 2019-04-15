@@ -1,13 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
+
+<!doctype html>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
+<title>Lyric Master</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+<style>
+
+
+    .topnav {
+  overflow: hidden;
+  background-color: #333;
+
+
+}
+
+/* Style the topnav links */
+.topnav a {
+  float:left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-family: sans-serif;
+  font-size: 13px;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+
+
+
+    .logo {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+    }
+
+
+    .header-image {
+        background-image:url("h2.jpg");
+        height: 50%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        font-family: sans-serif;
+        font-size: 13px;
+        color: #fff;
+        background-color: #333;
+        text-align: center;
+    }
+
+    .cover {
+        width: 100%;
+        height: 300px;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),  url(h2.jpg);
+        background-size: cover;
+
+
+
+    }
+
+    .hero-text {
+        text-align: center;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-family: serif;
+    }
+
+    .cover input[type=text] {
+  float: none;
+  padding: 6px;
+  border: none;
+  font-size: 17px;
+}
+
+
+    </style>
 <body>
-<div id="lyrics">  </div>
-<script src="script.js"></script>
-</body>
+    <div>
+    <img src="LM-logo-web.png" alt= "Lm logo" class="logo">
+    </div>
+
+        <div class="topnav">
+  <a href="#">About</a>
+  <a href="#">Submit Lyrics</a>
+  <a href="#">Contact Us</a>
+</div>
+
+    <div class="cover">
+        <div class="hero-text">
+    <h1>Your Number 1 Lyrics Search Site</h1>
+    <p>Lyrics from across the world!</p>
+    <input type="text" placeholder="Search..">
+  </div>
+    </div>
+
+
+
+<footer>
+    <p>Created by Cyril Mandaal and Benjamin Hove Copryight © 2019 </p>
+    </footer>
+
+
+    </body>
+
 </html>
