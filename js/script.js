@@ -30,7 +30,7 @@ document.addEventListener("keypress",function(key){
     request.addEventListener("load",whenLoaded);
     request.send();
   }
-})
+});
 
 function whenLoaded(){
   //data = JSON.parse(request.responseText);
