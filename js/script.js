@@ -81,3 +81,14 @@ function format(data){
   }
   return formatted;
 }
+//Spotify Web player
+//https://developer.spotify.com/documentation/web-playback-sdk/quick-start/#
+window.onSpotifyWebPlaybackSDKReady = ()=>{
+  const token = "BQBL14QKoh9zulDtpSifoHOIWZOlMvV7nYQPtrlDb6qYCJKDTPSFAAf3ckU1X48lXDk-9KGwAbxa6u5oz7UKAsTIVNS8LKYlGTZdmqrGDQGWQGhWIliry-jFn9HG5LvmimqC-1YIYa_swGf81tHsnM22j3AAPz0HXHS1tJVk";
+  const player = new Spotify.Player({
+    name:"Web Playback",
+    getoAuthToken: cb =>{ cb(token)}
+  });
+
+  player.connect();
+}
