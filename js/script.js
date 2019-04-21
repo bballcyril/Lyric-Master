@@ -1,8 +1,10 @@
 var request = new XMLHttpRequest();
+var itunesRequest = new XMLHttpRequest();
 var lyrics = document.getElementById("lyrics");
 var submit = document.getElementById("submit");
 var artist = document.getElementById("artist");
 var song = document.getElementById("song");
+var player = document.getElementById("source");
 var formattedArtist;
 var formattedSong;
 var data;
@@ -17,6 +19,14 @@ submit.addEventListener("click",function(){
   request.open("GET","https://api.lyrics.ovh/v1/"+formattedArtist+"/"+formattedSong);
   request.addEventListener("load",whenLoaded);
   request.send();
+
+  //Webplayer
+  itunesRequest.open("GET","https://itunes.apple.com/search?term=drake")
+  itunesRequest.addEventListener("load",function(){
+      console.log(JSON.parse(itunesRequest.responseText));
+      console.log("itunes loaded");
+  });
+  itunesRequest.send();
 });
 //Listens for an enter keypress
 document.addEventListener("keypress",function(key){
@@ -30,7 +40,7 @@ document.addEventListener("keypress",function(key){
     request.addEventListener("load",whenLoaded);
     request.send();
   }
-})
+});
 
 function whenLoaded(){
   //data = JSON.parse(request.responseText);
@@ -80,15 +90,4 @@ function format(data){
     nextLinePos = data.indexOf("\\n",i);
   }
   return formatted;
-}
-//Spotify Web player
-//https://developer.spotify.com/documentation/web-playback-sdk/quick-start/#
-window.onSpotifyWebPlaybackSDKReady = ()=>{
-  const token = "BQBL14QKoh9zulDtpSifoHOIWZOlMvV7nYQPtrlDb6qYCJKDTPSFAAf3ckU1X48lXDk-9KGwAbxa6u5oz7UKAsTIVNS8LKYlGTZdmqrGDQGWQGhWIliry-jFn9HG5LvmimqC-1YIYa_swGf81tHsnM22j3AAPz0HXHS1tJVk";
-  const player = new Spotify.Player({
-    name:"Web Playback",
-    getoAuthToken: cb =>{ cb(token)}
-  });
-
-  player.connect();
 }

@@ -43,13 +43,6 @@ footer {
   background-color: #333;
   text-align: center;
   }
-.cover {
-  width: 100%;
-  height: 300px;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),  url("imgs/h1.jpg");
-  background-size: cover;
-}
-
 .hero-text {
   text-align: center;
   position: absolute;
@@ -66,6 +59,9 @@ footer {
   border: none;
   font-size: 17px;
 }
+.cover{
+  position: relative;
+}
 #container{
   text-align: center;
 }
@@ -73,4 +69,10 @@ footer {
   text-align: center;
   padding-top: 40px;
   padding-bottom: 60px;
+}
+#player{
+  display: block;
+  margin-left:auto;
+  margin-right: auto;
+  width: 800px;
 }

@@ -1,10 +1,18 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Lyric Master</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style/style.css">
+    <style>
+      .cover {
+        width: 100%;
+        height: 500px;
+        background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),  url("imgs/h1.jpg");
+        background-size: cover;
+      }
+    </style>
 </head>
 <body>
     <div>
@@ -25,6 +33,9 @@
     </div>
 </div>
 <div class="container">
+  <audio controls="controls" id="player">
+    <source src="https://audio-ssl.itunes.apple.com/apple-assets-us-std-000001/AudioPreview128/v4/fa/4b/9e/fa4b9ea2-99c3-ab71-1103-68661ef7b6f3/mzaf_7196473382879067455.plus.aac.p.m4a" type="audio/mp3" id="source">
+  </audio>
   <div id="lyrics">
   </div>
 </div>
@@ -32,6 +43,5 @@
     <p>Created by Cyril Maandal and Benjamin Hove Copryight © 2019 </p>
     </footer>
     <script src="js/script.js"></script>
-    <script src="https://sdk.scdn.co/spotify-player.js"></script>
     </body>
 </html>
