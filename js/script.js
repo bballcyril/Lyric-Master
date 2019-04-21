@@ -4,7 +4,7 @@ var lyrics = document.getElementById("lyrics");
 var submit = document.getElementById("submit");
 var artist = document.getElementById("artist");
 var song = document.getElementById("song");
-var player = document.getElementById("source");
+var player = document.getElementById("player");
 var formattedArtist;
 var formattedSong;
 var data;
@@ -20,12 +20,10 @@ submit.addEventListener("click",function(){
   request.addEventListener("load",whenLoaded);
   request.send();
 
+  player.innerHTML= " ";
   //Webplayer
-  itunesRequest.open("GET","https://itunes.apple.com/search?term=drake")
-  itunesRequest.addEventListener("load",function(){
-      console.log(JSON.parse(itunesRequest.responseText));
-      console.log("itunes loaded");
-  });
+  itunesRequest.open("GET","https://itunes.apple.com/search?term=drake&one&dance");
+  itunesRequest.addEventListener("load",loadItunes);
   itunesRequest.send();
 });
 //Listens for an enter keypress
@@ -54,6 +52,25 @@ function whenLoaded(){
   var output = format(data);
   lyrics.innerHTML += output;
   console.log(data);
+  }
+}
+function loadItunes(){
+  var items = JSON.parse(itunesRequest.responseText);
+  var songObject;
+  console.log(JSON.parse(itunesRequest.responseText));
+  console.log("itunes loaded");
+  for(var i =0;i<items.resultCount;i++){
+    var results = items.results[i].trackName.toLowerCase();
+    if(results.includes(song.value.toLowerCase())){
+      songObject = items.results[i];
+      var previewUrl = songObject.previewUrl;
+      console.log(previewUrl);
+      player.innerHTML = "<source src ="+previewUrl+">";
+      console.log(i);
+
+      //Stops loop once item is found
+       break;
+    }
   }
 }
 //Inserts an "_" at each space
