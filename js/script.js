@@ -37,6 +37,12 @@ document.addEventListener("keypress",function(key){
     request.open("GET","https://api.lyrics.ovh/v1/"+formattedArtist+"/"+formattedSong);
     request.addEventListener("load",whenLoaded);
     request.send();
+
+    player.innerHTML= " ";
+    //Webplayer
+    itunesRequest.open("GET","https://itunes.apple.com/search?term=drake&one&dance");
+    itunesRequest.addEventListener("load",loadItunes);
+    itunesRequest.send();
   }
 });
 
