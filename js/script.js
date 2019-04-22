@@ -5,6 +5,7 @@ var submit = document.getElementById("submit");
 var artist = document.getElementById("artist");
 var song = document.getElementById("song");
 var player = document.getElementById("player");
+player.volume = 0.1;
 var formattedArtist;
 var formattedSong;
 var data;
@@ -12,7 +13,7 @@ var data;
 //Fetches JSON data from the lyrics.ovh api
 submit.addEventListener("click",function(){
   console.log("submit");
-  lyrics.innerHTML = "";
+  lyrics.innerHTML = "Loading....";
   formattedArtist = formatInput(artist.value);
   formattedSong = formatInput(song.value);
   console.log(formattedArtist);
@@ -22,7 +23,9 @@ submit.addEventListener("click",function(){
 
   player.innerHTML= " ";
   //Webplayer
-  itunesRequest.open("GET","https://itunes.apple.com/search?term=drake&one&dance");
+  itunesArtist = itunesFormat(artist.value);
+  itunesSong = itunesFormat(song.value);
+  itunesRequest.open("GET","https://itunes.apple.com/search?term="+itunesArtist+"&"+itunesSong);
   itunesRequest.addEventListener("load",loadItunes);
   itunesRequest.send();
 });
@@ -30,7 +33,7 @@ submit.addEventListener("click",function(){
 document.addEventListener("keypress",function(key){
   if(key.keyCode ===13){
     console.log("submit");
-    lyrics.innerHTML = "";
+    lyrics.innerHTML = "Loading....";
     formattedArtist = formatInput(artist.value);
     formattedSong = formatInput(song.value);
     console.log(formattedArtist);
@@ -40,7 +43,7 @@ document.addEventListener("keypress",function(key){
 
     player.innerHTML= " ";
     //Webplayer
-    itunesRequest.open("GET","https://itunes.apple.com/search?term=drake&one&dance");
+    itunesRequest.open("GET","https://itunes.apple.com/search?term="+itunesArtist+"&"+itunesSong);
     itunesRequest.addEventListener("load",loadItunes);
     itunesRequest.send();
   }
@@ -54,10 +57,11 @@ function whenLoaded(){
     lyrics.innerHTML += "Lyrics not found";
     console.log("Lyrics not found");
   }else{
-  data = request.responseText;
-  var output = format(data);
-  lyrics.innerHTML += output;
-  console.log(data);
+    lyrics.innerHTML = "";
+    data = request.responseText;
+    var output = format(data);
+    lyrics.innerHTML += output;
+    console.log(data);
   }
 }
 function loadItunes(){
@@ -78,6 +82,19 @@ function loadItunes(){
        break;
     }
   }
+}
+function itunesFormat(input){
+  var formatted = "";
+  var pos = input.indexOf(" ");
+  for(var i =0;i<input.length;i++){
+    if(pos===i){
+      formatted+= "&";
+    }else{
+      formatted+=input.substring(i,i+1);
+    }
+    pos = input.indexOf(" ", i);
+  }
+  return formatted;
 }
 //Inserts an "_" at each space
 function formatInput(input){
