@@ -77,3 +77,6 @@ footer {
   width:400px;;
   margin-top: 20px;
 }
+.error{
+  border: 1px solid red;
+}

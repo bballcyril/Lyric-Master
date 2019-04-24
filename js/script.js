@@ -30,6 +30,7 @@ submit.addEventListener("click",function(){
     itunesRequest.addEventListener("load",loadItunes);
     itunesRequest.send();
   }else{
+    lyrics.innerHTML = "";
     lyrics.innerHTML += "Please enter both fields";
   }
 });
@@ -43,7 +44,6 @@ document.addEventListener("keypress",function(key){
       request.open("GET","https://api.lyrics.ovh/v1/"+formattedArtist+"/"+formattedSong);
       request.addEventListener("load",whenLoaded);
       request.send();
-
       //Webplayer
       itunesArtist = itunesFormat(artist.value);
       itunesSong = itunesFormat(song.value);
@@ -51,6 +51,7 @@ document.addEventListener("keypress",function(key){
       itunesRequest.addEventListener("load",loadItunes);
       itunesRequest.send();
     }else{
+      lyrics.innerHTML = "";
       lyrics.innerHTML += "Please enter both fields";
     }
   }
@@ -60,6 +61,7 @@ function whenLoaded(){
   //data = JSON.parse(request.responseText);
   console.log("loaded");
   console.log(request.status);
+  //If lyrics are not found
   if(request.status === 404){
     lyrics.innerHTML = "";
     lyrics.innerHTML += "Lyrics not found";
@@ -77,12 +79,14 @@ function loadItunes(){
   var songObject;
   console.log(JSON.parse(itunesRequest.responseText));
   console.log(itunesFormat(artist.value),itunesFormat(song.value));
+  //Searches for the preview url in each JSON result
   for(var i =0;i<items.resultCount;i++){
     var results = items.results[i].trackName.toLowerCase();
     if(results.includes(song.value.toLowerCase())){
       songObject = items.results[i];
       var previewUrl = songObject.previewUrl;
       console.log(previewUrl);
+      //Updates the player
       wrapper.innerHTML = "<audio controls='controls' id='player'><source id = 'source' src ="+previewUrl+"></audio>";
       var player = document.getElementById("player");
       player.volume = 0.1;
@@ -91,6 +95,7 @@ function loadItunes(){
       //Stops loop once item is found
        break;
     }else{
+      wrapper.innerHTML = "<audio controls='controls' id='player'><source id = 'source' src ="+previewUrl+"></audio>";
       console.log("Song not found");
     }
   }
