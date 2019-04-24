@@ -1,10 +1,13 @@
 var request = new XMLHttpRequest();
 var itunesRequest = new XMLHttpRequest();
+
 var lyrics = document.getElementById("lyrics");
 var submit = document.getElementById("submit");
 var artist = document.getElementById("artist");
 var song = document.getElementById("song");
 var player = document.getElementById("player");
+var wrapper = document.getElementById("wrapper");
+
 player.volume = 0.1;
 var formattedArtist;
 var formattedSong;
@@ -12,40 +15,44 @@ var data;
 
 //Fetches JSON data from the lyrics.ovh api
 submit.addEventListener("click",function(){
-  console.log("submit");
-  lyrics.innerHTML = "Loading....";
-  formattedArtist = formatInput(artist.value);
-  formattedSong = formatInput(song.value);
-  console.log(formattedArtist);
-  request.open("GET","https://api.lyrics.ovh/v1/"+formattedArtist+"/"+formattedSong);
-  request.addEventListener("load",whenLoaded);
-  request.send();
-
-  player.innerHTML= " ";
-  //Webplayer
-  itunesArtist = itunesFormat(artist.value);
-  itunesSong = itunesFormat(song.value);
-  itunesRequest.open("GET","https://itunes.apple.com/search?term="+itunesArtist+"&"+itunesSong);
-  itunesRequest.addEventListener("load",loadItunes);
-  itunesRequest.send();
-});
-//Listens for an enter keypress
-document.addEventListener("keypress",function(key){
-  if(key.keyCode ===13){
-    console.log("submit");
+  if(!(artist.value.length==0||song.value.length==0)){
     lyrics.innerHTML = "Loading....";
     formattedArtist = formatInput(artist.value);
     formattedSong = formatInput(song.value);
-    console.log(formattedArtist);
     request.open("GET","https://api.lyrics.ovh/v1/"+formattedArtist+"/"+formattedSong);
     request.addEventListener("load",whenLoaded);
     request.send();
 
-    player.innerHTML= " ";
     //Webplayer
+    itunesArtist = itunesFormat(artist.value);
+    itunesSong = itunesFormat(song.value);
     itunesRequest.open("GET","https://itunes.apple.com/search?term="+itunesArtist+"&"+itunesSong);
     itunesRequest.addEventListener("load",loadItunes);
     itunesRequest.send();
+  }else{
+    lyrics.innerHTML += "Please enter both fields";
+  }
+});
+//Listens for an enter keypress
+document.addEventListener("keypress",function(key){
+  if(key.keyCode ===13){
+    if(!(artist.value.length==0||song.value.length==0)){
+      lyrics.innerHTML = "Loading....";
+      formattedArtist = formatInput(artist.value);
+      formattedSong = formatInput(song.value);
+      request.open("GET","https://api.lyrics.ovh/v1/"+formattedArtist+"/"+formattedSong);
+      request.addEventListener("load",whenLoaded);
+      request.send();
+
+      //Webplayer
+      itunesArtist = itunesFormat(artist.value);
+      itunesSong = itunesFormat(song.value);
+      itunesRequest.open("GET","https://itunes.apple.com/search?term="+itunesArtist+"&"+itunesSong);
+      itunesRequest.addEventListener("load",loadItunes);
+      itunesRequest.send();
+    }else{
+      lyrics.innerHTML += "Please enter both fields";
+    }
   }
 });
 
@@ -54,6 +61,7 @@ function whenLoaded(){
   console.log("loaded");
   console.log(request.status);
   if(request.status === 404){
+    lyrics.innerHTML = "";
     lyrics.innerHTML += "Lyrics not found";
     console.log("Lyrics not found");
   }else{
@@ -68,18 +76,22 @@ function loadItunes(){
   var items = JSON.parse(itunesRequest.responseText);
   var songObject;
   console.log(JSON.parse(itunesRequest.responseText));
-  console.log("itunes loaded");
+  console.log(itunesFormat(artist.value),itunesFormat(song.value));
   for(var i =0;i<items.resultCount;i++){
     var results = items.results[i].trackName.toLowerCase();
     if(results.includes(song.value.toLowerCase())){
       songObject = items.results[i];
       var previewUrl = songObject.previewUrl;
       console.log(previewUrl);
-      player.innerHTML = "<source src ="+previewUrl+">";
+      wrapper.innerHTML = "<audio controls='controls' id='player'><source id = 'source' src ="+previewUrl+"></audio>";
+      var player = document.getElementById("player");
+      player.volume = 0.1;
       console.log(i);
 
       //Stops loop once item is found
        break;
+    }else{
+      console.log("Song not found");
     }
   }
 }
