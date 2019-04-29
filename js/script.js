@@ -17,15 +17,16 @@ var data;
 submit.addEventListener("click",function(){
   if(!(artist.value.length==0||song.value.length==0)){
     lyrics.innerHTML = "Loading....";
-    formattedArtist = formatInput(artist.value);
-    formattedSong = formatInput(song.value);
+    //Searches for lyrics
+    formattedArtist = insert("_",artist.value);
+    formattedSong = insert("_",song.value);
     request.open("GET","https://api.lyrics.ovh/v1/"+formattedArtist+"/"+formattedSong);
     request.addEventListener("load",whenLoaded);
     request.send();
 
     //Webplayer
-    itunesArtist = itunesFormat(artist.value);
-    itunesSong = itunesFormat(song.value);
+    itunesArtist = insert("&",artist.value);
+    itunesSong = insert("&",song.value);
     itunesRequest.open("GET","https://itunes.apple.com/search?term="+itunesArtist+"&"+itunesSong);
     itunesRequest.addEventListener("load",loadItunes);
     itunesRequest.send();
@@ -38,15 +39,16 @@ submit.addEventListener("click",function(){
 document.addEventListener("keypress",function(key){
   if(key.keyCode ===13){
     if(!(artist.value.length==0||song.value.length==0)){
+      //Searches for lyrics
       lyrics.innerHTML = "Loading....";
-      formattedArtist = formatInput(artist.value);
-      formattedSong = formatInput(song.value);
+      formattedArtist = insert("_",artist.value);
+      formattedSong = insert("_",song.value);
       request.open("GET","https://api.lyrics.ovh/v1/"+formattedArtist+"/"+formattedSong);
       request.addEventListener("load",whenLoaded);
       request.send();
       //Webplayer
-      itunesArtist = itunesFormat(artist.value);
-      itunesSong = itunesFormat(song.value);
+      itunesArtist = insert("&",artist.value);
+      itunesSong = insert("&",song.value);
       itunesRequest.open("GET","https://itunes.apple.com/search?term="+itunesArtist+"&"+itunesSong);
       itunesRequest.addEventListener("load",loadItunes);
       itunesRequest.send();
@@ -56,7 +58,7 @@ document.addEventListener("keypress",function(key){
     }
   }
 });
-
+//Loads lyrics
 function whenLoaded(){
   //data = JSON.parse(request.responseText);
   console.log("loaded");
@@ -74,11 +76,12 @@ function whenLoaded(){
     console.log(data);
   }
 }
+//Loads the web player
 function loadItunes(){
   var items = JSON.parse(itunesRequest.responseText);
   var songObject;
   console.log(JSON.parse(itunesRequest.responseText));
-  console.log(itunesFormat(artist.value),itunesFormat(song.value));
+  console.log(insert("&",artist.value),insert("&",song.value));
   //Searches for the preview url in each JSON result
   for(var i =0;i<items.resultCount;i++){
     var results = items.results[i].trackName.toLowerCase();
@@ -100,34 +103,22 @@ function loadItunes(){
     }
   }
 }
-function itunesFormat(input){
+//Inserts a given character at every space
+function insert(character, input){
   var formatted = "";
-  var pos = input.indexOf(" ");
+  var pos = input.indexOf(character);
   for(var i =0;i<input.length;i++){
     if(pos===i){
-      formatted+= "&";
+      formatted+=character;
     }else{
       formatted+=input.substring(i,i+1);
     }
-    pos = input.indexOf(" ", i);
+    pos = input.indexOf(character,i);
   }
   return formatted;
 }
-//Inserts an "_" at each space
-function formatInput(input){
-  var formatted = "";
-  var pos = input.indexOf(" ");
-  for(var i =0;i<input.length;i++){
-    if(pos===i){
-      formatted+= "_";
-    }else{
-      formatted+=input.substring(i,i+1);
-    }
-    pos = input.indexOf(" ", i);
-  }
-  return formatted;
-}
-//Format the JSON data
+//Formats the JSON data (lyrics)
+//Replaces the \n with a <br>
 function format(data){
   var formatted =" ";
   //Position of the start of the lyrics
@@ -141,7 +132,7 @@ function format(data){
       formatted+= "<br>";
       i+=1;
     }else{
-    formatted+= data.substring(i,i+1);
+      formatted+= data.substring(i,i+1);
     }
     //Gets the next index of \n
     nextLinePos = data.indexOf("\\n",i);
