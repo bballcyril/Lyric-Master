@@ -12,7 +12,7 @@ player.volume = 0.1;
 var formattedArtist;
 var formattedSong;
 var data;
-
+var lyricsFound = false;
 //Fetches JSON data from the lyrics.ovh api
 submit.addEventListener("click",function(){
   if(!(artist.value.length==0||song.value.length==0)){
@@ -60,46 +60,41 @@ document.addEventListener("keypress",function(key){
 });
 //Loads lyrics
 function whenLoaded(){
-  //data = JSON.parse(request.responseText);
   console.log("loaded");
   console.log(request.status);
   //If lyrics are not found
   if(request.status === 404){
     lyrics.innerHTML = "";
     lyrics.innerHTML += "Lyrics not found";
-    console.log("Lyrics not found");
+    lyricsFound = false;
+    console.log(lyricsFound);
   }else{
     lyrics.innerHTML = "";
     data = request.responseText;
     var output = format(data);
     lyrics.innerHTML += output;
-    console.log(data);
+    lyricsFound = true;
+    console.log(lyricsFound);
   }
 }
 //Loads the web player
 function loadItunes(){
   var items = JSON.parse(itunesRequest.responseText);
   var songObject;
-  console.log(JSON.parse(itunesRequest.responseText));
-  console.log(insert("&",artist.value),insert("&",song.value));
   //Searches for the preview url in each JSON result
   for(var i =0;i<items.resultCount;i++){
     var results = items.results[i].trackName.toLowerCase();
     if(results.includes(song.value.toLowerCase())){
       songObject = items.results[i];
       var previewUrl = songObject.previewUrl;
-      console.log(previewUrl);
       //Updates the player
       wrapper.innerHTML = "<audio controls='controls' id='player'><source id = 'source' src ="+previewUrl+"></audio>";
       var player = document.getElementById("player");
       player.volume = 0.1;
-      console.log(i);
-
       //Stops loop once item is found
-       break;
+      break;
     }else{
       wrapper.innerHTML = "<audio controls='controls' id='player'><source id = 'source' src ="+previewUrl+"></audio>";
-      console.log("Song not found");
     }
   }
 }

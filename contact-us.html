@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lyric Master</title>
+    <title>Lyric Master-Contact-Class</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style/style.css">
-    <link rel="logo" type="img/png" sizes="16x16" href="">
     <style>
       .cover {
         width: 100%;
@@ -21,7 +20,7 @@
     </div>
   <div class="topnav">
     <a href="index.html">Home</a>
-    <a href="about.html">About</a>
+    <a href="About.html">About</a>
     <a href="contact-us.html">Contact Us</a>
   </div>
 <div class="cover">
@@ -33,14 +32,37 @@
       <input type="submit" id="submit" value="Search">
     </div>
 </div>
-<div id="container" class="container">
-  <div id="wrapper">
-    <audio controls="controls" id="player">
-      Your browser does not support the audio player.
-    </audio>
-  </div>
+<div class="container">
+  <audio controls="controls" id="player">
+    
+  </audio>
   <div id="lyrics">
   </div>
+    <h1 style="padding-left: 20px;">Contact Us</h1>
+    <div class="container">
+  <form action="/action_page.php">
+    <label for="fname">First Name</label>
+    <input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+    <label for="lname">Last Name</label>
+    <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+    <label for="country">Country</label>
+    <select id="country" name="country">
+      <option value="australia">USA</option>
+      <option value="canada">Canada</option>
+      <option value="usa">Mexico</option>
+      <option value="usa">Other</option>
+    </select>
+
+    <label for="subject">Subject</label>
+    <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+    <input type="submit" value="Submit">
+  </form>
+</div>
+    
+
 </div>
 <footer>
     <p>Created by Cyril Maandal and Benjamin Hove Copryight © 2019 </p>
