@@ -76,6 +76,10 @@ function whenLoaded(){
     lyricsFound = true;
     console.log(lyricsFound);
   }
+  setTimeout(function(){
+    lyrics.innerHTML ="";
+    lyrics.innerHTML =  "Lyrics not found";
+  },15000);
 }
 //Loads the web player
 function loadItunes(){
