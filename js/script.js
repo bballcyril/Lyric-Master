@@ -23,7 +23,6 @@ submit.addEventListener("click",function(){
     request.open("GET","https://api.lyrics.ovh/v1/"+formattedArtist+"/"+formattedSong);
     request.addEventListener("load",whenLoaded);
     request.send();
-
     //Webplayer
     itunesArtist = insert("&",artist.value);
     itunesSong = insert("&",song.value);
@@ -63,7 +62,7 @@ function whenLoaded(){
   console.log("loaded");
   console.log(request.status);
   //If lyrics are not found
-  if(request.status === 404){
+  if(request.status != 200){
     lyrics.innerHTML = "";
     lyrics.innerHTML += "Lyrics not found";
     lyricsFound = false;
@@ -80,6 +79,7 @@ function whenLoaded(){
 //Loads the web player
 function loadItunes(){
   var items = JSON.parse(itunesRequest.responseText);
+  console.log(items);
   var songObject;
   //Searches for the preview url in each JSON result
   for(var i =0;i<items.resultCount;i++){
