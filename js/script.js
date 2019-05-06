@@ -71,6 +71,7 @@ function whenLoaded(){
     lyrics.innerHTML = "";
     data = request.responseText;
     var output = format(data);
+    console.log(data);
     lyrics.innerHTML += output;
     lyricsFound = true;
     console.log(lyricsFound);
