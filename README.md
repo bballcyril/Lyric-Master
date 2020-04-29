@@ -1,3 +1,2 @@
 # Lyric Master
-Hosted on Netlify
-lyricmaster.site
+https://bballcyril.github.io/Lyric-Master/
